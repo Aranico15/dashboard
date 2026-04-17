@@ -3,12 +3,14 @@ main.py - FastAPI: REST API + WebSockets para el sistema de asistencia facial US
 Ejecutar: uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 """
 import asyncio
+import base64
 import json
 from datetime import date, datetime
 from pathlib import Path
 from typing import Optional
 
 import cv2
+import numpy as np
 from fastapi import (
     BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 )
@@ -136,7 +138,7 @@ def list_subjects(docente_id: Optional[int] = None, db: Session = Depends(get_db
 
 @app.post("/api/subjects", status_code=201)
 def create_subject(req: SubjectReq, db: Session = Depends(get_db)):
-    s = Subject(**req.dict())
+    s = Subject(**req.model_dump())
     db.add(s); db.commit(); db.refresh(s)
     return {"id": s.id, "nombre": s.nombre}
 
@@ -184,7 +186,7 @@ def list_groups(docente_id: Optional[int] = None, materia_id: Optional[int] = No
 
 @app.post("/api/groups", status_code=201)
 def create_group(req: GroupReq, db: Session = Depends(get_db)):
-    g = Group(**req.dict())
+    g = Group(**req.model_dump())
     db.add(g); db.commit(); db.refresh(g)
     return {"id": g.id, "nombre": g.nombre}
 
@@ -553,8 +555,9 @@ async def ws_capture(ws: WebSocket, face_label_id: int):
                 continue
             
             # Guardar el frame recibido (encriptado automáticamente por el motor)
-            ok = face_engine.save_capture_frame(face_label_id, frame_data, count)
-            if ok:
+            # face_engine.process_and_save_frame maneja la detección y encriptación
+            res = face_engine.process_and_save_frame(face_label_id, frame_data, count)
+            if "error" not in res and res.get("status") == "captured":
                 count += 1
                 progress = int((count / total) * 100)
                 # Feedback al frontend: Enviamos el mismo frame o uno con anotaciones si fuera necesario
@@ -570,6 +573,7 @@ async def ws_capture(ws: WebSocket, face_label_id: int):
         await ws.send_json({"training": True, "message": "Iniciando entrenamiento…"})
         
         # Ejecutar entrenamiento (pesado) en un executor para no bloquear el loop de eventos
+        loop = asyncio.get_running_loop()
         ok, msg = await loop.run_in_executor(None, face_engine.train_model)
         
         if ok:
