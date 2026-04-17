@@ -40,8 +40,8 @@ Para garantizar la privacidad de los datos biométricos de los estudiantes, el s
 
 ### 1. Clonar y Preparar
 ```bash
-git clone <url-del-repositorio>
-cd AsistenciaFacial
+git clone https://github.com/Aranico15/Asistencia-Facial.git
+cd Asistencia-Facial
 ```
 
 ### 2. Configurar el Backend (Python)
