@@ -1,41 +1,50 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependency directories
+node_modules/
+dashboard/node_modules/
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Next.js build
+dashboard/.next/
+dashboard/out/
+dashboard/build/
 
-# testing
-/coverage
+# Python
+__pycache__/
+backend/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
 
-# next.js
-/.next/
-/out/
+# Database & Local Data
+*.db
+asistencia.db
+data/students/
+modelos/
+*.xlsx
+Libro_Asistencia_Global.xlsx
 
-# production
-/build
+# Environments & Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# misc
+# OS files
 .DS_Store
-*.pem
+Thumbs.db
 
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# Models and XMLs
+*.yml
+*.xml
+modelo_reconocimiento.yml
+haarcascade_frontalface_default.xml
 
-# env files (can opt-in for committing if needed)
-.env*
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# Data and Assets
+data/data/
+data/students/
+asistencia.db
+*.xlsx
+Libro_Asistencia_Global.xlsx

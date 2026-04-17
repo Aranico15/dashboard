@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: 220 20% 97%;
+  --color-foreground: 222 47% 11%;
+  
+  --color-card: 0 0% 100%;
+  --color-card-foreground: 222 47% 11%;
+  
+  --color-primary: 243 75% 59%;
+  --color-primary-foreground: 210 40% 98%;
+  
+  --color-secondary: 210 40% 96%;
+  --color-secondary-foreground: 222 47% 11%;
+  
+  --color-border: 214.3 31.8% 91.4%;
+  --radius-xl: 1rem;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+@utility glass {
+  background-color: rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.1);
+}
+
+@utility glass-card {
+  background-color: var(--color-card);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 10px 30px -15px rgba(0,0,0,0.1);
+  border: 1px solid var(--color-border);
+}
+
+:root {
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
+}
+
+.dark {
+  --color-background: 224 71% 4%;
+  --color-foreground: 213 31% 91%;
+  --color-card: 222 47% 11%;
+  --color-card-foreground: 213 31% 91%;
+  --color-primary: 243 75% 59%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-secondary: 222 47% 11%;
+  --color-secondary-foreground: 210 40% 98%;
+  --color-border: 216 34% 17%;
+}
+
+.dark .glass {
+  background-color: rgb(0 0 0 / 0.2);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+}
+
+html, body {
+  height: 100%;
+}
